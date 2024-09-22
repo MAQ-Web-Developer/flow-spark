@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   try {
     const { fullName, email, checkbox } = await req.json();
 
-    // Basic validation
     if (!fullName || !email || typeof checkbox === "undefined") {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -15,7 +14,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Email format validation
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -24,7 +22,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Checkbox validation (ensure it's a boolean)
     if (typeof checkbox !== "boolean") {
       return NextResponse.json(
         { error: "Checkbox must be set to true or false" },
@@ -32,7 +29,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Store validated data in the Lead table
     const lead = await prisma.lead.create({
       data: {
         fullName,
